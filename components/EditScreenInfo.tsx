@@ -50,6 +50,7 @@ function handleHelpPress() {
 
 const styles = StyleSheet.create({
   getStartedContainer: {
+
     alignItems: 'center',
     marginHorizontal: 50,
   },
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
+    fontFamily: 'teoran-font',
     fontSize: 17,
     lineHeight: 24,
     textAlign: 'center',
@@ -71,9 +73,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   helpLink: {
+    fontFamily: 'teoran-font',
     paddingVertical: 15,
   },
   helpLinkText: {
+    fontFamily: 'teoran-font',
     textAlign: 'center',
   },
 });

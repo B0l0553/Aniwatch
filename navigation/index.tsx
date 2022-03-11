@@ -3,19 +3,21 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, Pressable, StyleSheet } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+//import TabOneScreen from '../screens/TabOneScreen';
+//import TabTwoScreen from '../screens/TabTwoScreen';
+import SubTabScreen from '../screens/SubTabScreen';
+import DubTabScreen from '../screens/DubTabScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -62,7 +64,7 @@ function BottomTabNavigator() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
-      <BottomTab.Screen
+      {/*<BottomTab.Screen
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
@@ -91,7 +93,24 @@ function BottomTabNavigator() {
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
-      />
+      />*/}
+      <BottomTab.Screen
+        name="SubTab"
+        component={SubTabScreen}
+        options={{ 
+          title: 'Subtitled',
+          headerTitleStyle: {fontFamily: 'teoran-font'},
+          tabBarLabelStyle: { fontFamily: 'teoran-font' },
+          tabBarIcon: ({ color }) => <MaterialIcons size={24} name="subtitles" color={color} />,
+         }} />
+      <BottomTab.Screen
+        name="DubTab"
+        component={DubTabScreen}
+        options={{ 
+          title: 'Dubbed',
+          tabBarLabelStyle: { fontFamily: 'teoran-font' },
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={24} name="microphone-variant" color={color} />,
+         }} />
     </BottomTab.Navigator>
   );
 }

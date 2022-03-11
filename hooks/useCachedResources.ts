@@ -16,6 +16,8 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...FontAwesome.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          'teoran-font': require('../assets/fonts/teoran-font-v1-04.ttf'),
+          'fira-code': require('../assets/fonts/FiraCode-Regular.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
