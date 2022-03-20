@@ -8,18 +8,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable, StyleSheet } from 'react-native';
+import { ColorSchemeName, Pressable, StyleSheet, Text } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-//import TabOneScreen from '../screens/TabOneScreen';
-//import TabTwoScreen from '../screens/TabTwoScreen';
 import SubTabScreen from '../screens/SubTabScreen';
 import DubTabScreen from '../screens/DubTabScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import SubSearchScreen from '../screens/SubSearchScreen';
+import { Octicons } from '@expo/vector-icons';
+import AnimeModal from '../screens/AnimeModal';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -44,6 +45,10 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="SubSearch" options={{
+          title: 'Search ...', animation: "fade_from_bottom"
+        }} component={SubSearchScreen} />
+        <Stack.Screen name="AnimeModal" options={{ animation: 'slide_from_right', title: '' }} component={ AnimeModal }/>
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -97,12 +102,13 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="SubTab"
         component={SubTabScreen}
-        options={{ 
+        options={({navigation, route}) => ({ 
           title: 'Subtitled',
-          headerTitleStyle: {fontFamily: 'teoran-font'},
+          headerTitleStyle: { fontFamily: 'teoran-font' },
+          headerRight: () => (<Pressable style={styles.searchWrapper} onPress={() => { navigation.navigate('SubSearch') }}><Text style={styles.search}>Search... <Octicons name='search' style={ styles.searchIcon }/></Text></Pressable>),
           tabBarLabelStyle: { fontFamily: 'teoran-font' },
           tabBarIcon: ({ color }) => <MaterialIcons size={24} name="subtitles" color={color} />,
-         }} />
+         })} />
       <BottomTab.Screen
         name="DubTab"
         component={DubTabScreen}
@@ -124,3 +130,20 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+
+const styles = StyleSheet.create({
+  searchWrapper: {
+    backgroundColor: "#19e696",
+    padding: 10,
+    marginRight: 2,
+    borderRadius: 10,
+    color: 'black',
+  },
+  search: {
+    fontSize: 14,
+    fontFamily: 'teoran-font',
+  },
+  searchIcon: {
+    fontSize: 22,
+  }
+});
