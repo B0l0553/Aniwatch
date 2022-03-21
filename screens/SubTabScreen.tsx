@@ -1,12 +1,12 @@
 import { RootTabScreenProps } from '../types';
 import { Text, View } from '../components/Themed';
 import { Button, StyleSheet, Pressable, ColorSchemeName } from 'react-native';
-import { GetPopularAnimes } from '../components/SubtitlesContent';
+import PopularAnimes from '../components/SubtitlesContent';
 
 export default function SubTabScreen({ navigation }: RootTabScreenProps<'SubTab'>) {
 	return (
     <View style={styles.container}>
-      <GetPopularAnimes/>
+      <PopularAnimes />
     </View>
   );
 }

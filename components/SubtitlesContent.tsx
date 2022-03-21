@@ -4,7 +4,7 @@ import { GetPopularSub } from '../gogoanime';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
-class GetPopularAnimes extends React.Component {
+export default class PopularAnimes extends React.Component {
   constructor(props: any[]) {
     super(props);
     this.state = {
@@ -27,12 +27,10 @@ class GetPopularAnimes extends React.Component {
         this.setState({ data: resJson });
         this.setState({ refreshing: false });
       }).catch(e => console.log(e));
-
   }
 
   handleRefresh = () => {
     this.setState({ refreshing: false }, () => { this.fetchPopulars() });
-    return ( <Text>Loading ... </Text>)
   }
 
   render() {
@@ -67,21 +65,12 @@ class GetPopularAnimes extends React.Component {
   }
 }
 
-function SearchAnime(text: string) {
-
-}
-
-export {
-  GetPopularAnimes,
-  SearchAnime,
-}
-
 const styles = StyleSheet.create({
   AnimeModal: {
 
   },
   imgs: {
-    width: 148,
+    width: 168,
     borderRadius: 10,
     overflow: 'hidden',
     justifyContent: 'flex-end',
@@ -96,8 +85,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#252525',
     padding: 6,
     margin: 6,
-    height: 220,
-    width: 160,
+    height: 240,
+    width: 180,
     justifyContent: 'center'
   },
   title: {

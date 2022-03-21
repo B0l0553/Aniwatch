@@ -1,5 +1,5 @@
 import axios from 'axios'; 
-const api = 'http://localhost:65535';
+const api = 'http://wysiwyh.ddns.net:65535';
 
 async function GetNewSeason(page: number) {
   var res = await axios.get(`${api}/NewSeasons/${page}`)
