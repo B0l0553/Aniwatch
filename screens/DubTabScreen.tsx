@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 export default function DubTabScreen({ navigation }: RootTabScreenProps<'DubTab'>) {
 	return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <Text style={styles.title}>Dub Tab</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.5)" />
       <EditScreenInfo path="/screens/DubTabScreen.tsx" />
     </View>

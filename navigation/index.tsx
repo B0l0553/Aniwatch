@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,15 +12,14 @@ import { ColorSchemeName, Pressable, StyleSheet, Text } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import SubTabScreen from '../screens/SubTabScreen';
 import DubTabScreen from '../screens/DubTabScreen';
+import AboutScreen from '../screens/AboutScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import SubSearchScreen from '../screens/SubSearchScreen';
 import { Octicons } from '@expo/vector-icons';
-import AnimeModal from '../screens/AnimeModal';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -44,11 +43,9 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
         <Stack.Screen name="SubSearch" options={{
           title: 'Search ...', animation: "fade_from_bottom"
         }} component={SubSearchScreen} />
-        <Stack.Screen name="AnimeModal" options={{ animation: 'slide_from_right', title: '' }} component={ AnimeModal }/>
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -65,48 +62,16 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="SubTab"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
-      {/*<BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />*/}
       <BottomTab.Screen
         name="SubTab"
         component={SubTabScreen}
         options={({navigation, route}) => ({ 
           title: 'Subtitled',
-          headerTitleStyle: { fontFamily: 'teoran-font' },
           headerRight: () => (<Pressable style={styles.searchWrapper} onPress={() => { navigation.navigate('SubSearch') }}><Text style={styles.search}>Search... <Octicons name='search' style={ styles.searchIcon }/></Text></Pressable>),
-          tabBarLabelStyle: { fontFamily: 'teoran-font' },
           tabBarIcon: ({ color }) => <MaterialIcons size={24} name="subtitles" color={color} />,
          })} />
       <BottomTab.Screen
@@ -114,9 +79,16 @@ function BottomTabNavigator() {
         component={DubTabScreen}
         options={{ 
           title: 'Dubbed',
-          tabBarLabelStyle: { fontFamily: 'teoran-font' },
           tabBarIcon: ({ color }) => <MaterialCommunityIcons size={24} name="microphone-variant" color={color} />,
-         }} />
+        }} />
+      <BottomTab.Screen
+        name="About"
+        component={AboutScreen}
+        options={{
+          title: 'About',
+          tabBarIcon: ({ color }) => <Ionicons size={24} name="ios-information-circle-outline" color={ color }/>
+        }}
+      />
     </BottomTab.Navigator>
   );
 }
@@ -140,8 +112,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   search: {
-    fontSize: 14,
-    fontFamily: 'teoran-font',
+    fontSize: 20,
+    
   },
   searchIcon: {
     fontSize: 22,

@@ -1,5 +1,5 @@
 import { FlatList, ImageBackground, StyleSheet, TouchableOpacity, ScrollView, Modal, BackHandler, Pressable } from 'react-native';
-import { Text, View } from './Themed';
+import { Text } from './Themed';
 import { GetPopularSub } from '../gogoanime';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -32,6 +32,7 @@ class GetPopularAnimes extends React.Component {
 
   handleRefresh = () => {
     this.setState({ refreshing: false }, () => { this.fetchPopulars() });
+    return ( <Text>Loading ... </Text>)
   }
 
   render() {
@@ -100,8 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    fontSize: 12,
-    fontFamily: 'teoran-font',
+    fontSize: 14,
     backgroundColor: '#505050',
     overflow: 'hidden',
     margin: 4,
