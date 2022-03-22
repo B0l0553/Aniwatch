@@ -1,34 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
-
+import { Platform, StyleSheet, TextInput } from 'react-native';
+import React, { useState } from 'react';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import SearchAnimes from '../components/SearchContent';
 
-export default function SubSearchScreen() {
-	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Search</Text>
-			<View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+const SubSearchScreen = () => {
+  const [query, setQuery] = useState(null)
 
-			{/* Use a light status bar on iOS to account for the black space above the modal */}
-			<StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-		</View>
+  return (
+    <View style={styles.container}>
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      <View>
+        <TextInput style={styles.input} placeholder='Shingeki no Kyojin...' />
+      </View>
+      <View>
+        <SearchAnimes />
+      </View>
+    </View>
   );
 }
+
+export default SubSearchScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  input: {
+    backgroundColor: 'white',
+    color: 'green',
+    width: 150,
+  }
 });

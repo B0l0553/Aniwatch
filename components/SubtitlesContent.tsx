@@ -13,6 +13,7 @@ export default class PopularAnimes extends React.Component {
       AnimeModalVisible: false,
       AnimeModalImg: '',
       AnimeModalTitle: '',
+      AnimeModalId: ''
     }
   }
 

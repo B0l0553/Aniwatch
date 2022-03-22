@@ -2,12 +2,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootTabScreenProps } from '../types';
 import { Text, View } from '../components/Themed'
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import CoolImage from '../components/CoolImage';
 import { Accelerometer, Gyroscope } from 'expo-sensors';
 import React, { useState, useEffect } from 'react';
 
 export default function AboutScreen({ navigation }: RootTabScreenProps<'About'>) {
-	
 	/*const [data, setData] = useState({
 		x: 0,
 		y: 0,
