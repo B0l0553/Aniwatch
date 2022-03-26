@@ -1,5 +1,5 @@
 import axios from 'axios'; 
-const api = 'http://wysiwyh.ddns.net:65535';
+const api = 'http://192.168.1.81:65535';
 
 const config = {
   headers: { 'Key': 'b252d1fe1c0c16d001027c2fce9b6529' }
@@ -26,7 +26,7 @@ async function Search(query: string) {
 }
 
 async function GetAnime(_anime_name: string) {
-  var res = await axios.get(`${api}/GetAnime/${_anime_name}`, config)
+  var res = await axios.get(`${api}/getanime/${_anime_name}`, config)
   return await res.data;
 }
 

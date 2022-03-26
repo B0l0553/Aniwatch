@@ -13,7 +13,7 @@ import DubTabScreen from '../screens/DubTabScreen';
 import AboutScreen from '../screens/AboutScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import SubSearchScreen from '../screens/SubSearchScreen';
+import SubSearchScreen from '../screens/SearchScreen';
 import { Octicons } from '@expo/vector-icons';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {

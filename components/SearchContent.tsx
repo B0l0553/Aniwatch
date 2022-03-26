@@ -10,44 +10,32 @@ import {
 	StyleSheet,
 	TextInput
 } from 'react-native';
+import { Search } from "../gogoanime";
 
 
 export default class SearchAnimes extends React.Component {
-	constructor(props: any, { query }) {
+	constructor(props: any) {
 		super(props);
 		this.state = {
 			data: [],
-			search: false,
-			query: query,
-			refreshing: true,
+			query: this.props.query,
 			AnimeModalVisible: false,
 			AnimeModalImg: '',
 			AnimeModalTitle: '',
 		}
 	}
 
-	componentDidMount() {
 
-	}
-
-	handleSearch = () => {
-		this.setState({ refreshing: true });
-		GetPopularSub(1)
-		.then(resJson => {
-			this.setState({ data: resJson });
-			this.setState({ refreshing: false });
-		}).catch(e => console.log(e));
-	}
 
 	render() {
 		return (
 			<>
 				<Modal style={styles.AnimeModal} animationType='slide' visible={this.state.AnimeModalVisible}>
-				<ImageBackground style={{height: '100%'}} source={{ uri: this.state.AnimeModalImg }}>
-					<Pressable onPress={() => { this.setState({ AnimeModalVisible: !this.state.AnimeModalVisible }) }}>
-					<Ionicons name='arrow-back' size={32} />
-					</Pressable>
-				</ImageBackground>
+					<ImageBackground style={{height: '100%'}} source={{ uri: this.state.AnimeModalImg }}>
+						<Pressable onPress={() => { this.setState({ AnimeModalVisible: !this.state.AnimeModalVisible }) }}>
+						<Ionicons name='arrow-back' size={32} />
+						</Pressable>
+					</ImageBackground>
 				</Modal>
 				<FlatList
 				data={this.state.data}
@@ -56,16 +44,15 @@ export default class SearchAnimes extends React.Component {
 				contentContainerStyle={{ flexDirection: 'column' }}
 				renderItem={item => {
 					return (
-					<TouchableOpacity style={styles.animeBoxS} onPress={ () => {this.setState({ AnimeModalVisible: true, AnimeModalImg: item.item.img_url, AnimeModalTitle: item.item.name }, () => {}) }}>
+					<TouchableOpacity style={styles.animeBoxS} onPress={ () => {this.setState({ AnimeModalVisible: true, AnimeModalImg: item.item.img_url, AnimeModalTitle: item.item.name, AnimeModalId: item.item.anime_id }, () => {}) }}>
 						<ImageBackground style={styles.imgs} source={{ uri: item.item.img_url }}>
-						<Text style={styles.title}>{item.item.name}</Text>
+							<Text style={styles.title}>{item.item.name}</Text>
 						</ImageBackground>
 					</TouchableOpacity>
 					)
 				}}
 				keyExtractor={item => item.id.toString()}
-				refreshing={this.state.refreshing}
-				onRefresh={this.handleRefresh} />
+				/>
 			</>
 		)
 	}
