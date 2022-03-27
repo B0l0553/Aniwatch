@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, TextInput, Modal, Pressable, FlatList, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import { Platform, StyleSheet, TextInput, Modal, Pressable, FlatList, ImageBackground, TouchableOpacity, Image, ListRenderItemInfo, ListRenderItem } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import SearchAnimes from '../components/SearchContent';
+//import SearchAnimes from '../components/SearchContent';
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('')
@@ -14,43 +14,43 @@ const SearchScreen = () => {
   const [AnimeModalTitle, setAnimeModalTitle] = useState('')
   const [AnimeModalId, setAnimeModalId] = useState('')
 
-  return (
-    <View style={styles.container}>
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-      <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder='Shingeki no Kyojin...' value={query} onChangeText={setQuery} />
-      </View>
-      <View>
+	return (
+		<View style={styles.container}>
+			<StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+			<View style={styles.inputContainer}>
+				<TextInput style={styles.input} placeholder='Shingeki no Kyojin...' value={query} onChangeText={setQuery} />
+			</View>
+			<View>
 				<Modal style={styles.AnimeModal} animationType='slide' visible={AnimeModalVisible}>
 					<Image style={{height: '100%'}} source={{ uri: AnimeModalImg }} />
-          <Pressable onPress={() => { setAnimeModalVisible(!AnimeModalVisible) }}>
-            <Ionicons name='arrow-back' size={32} />
-          </Pressable>
+					<Pressable onPress={() => { setAnimeModalVisible(!AnimeModalVisible) }}>
+						<Ionicons name='arrow-back' size={32} />
+					</Pressable>
 				</Modal>
 				<FlatList
 				data={data}
 				scrollEnabled={true}
 				numColumns={2}
 				contentContainerStyle={{ flexDirection: 'column' }}
-				renderItem={item => {
+				renderItem={(item): any => {
 					return (
-            <TouchableOpacity style={styles.animeBoxS} onPress={() => {
-              setAnimeModalVisible(true);
-              setAnimeModalImg(item.item.img_url);
-              setAnimeModalTitle(item.item.name);
-              setAnimeModalId(item.item.anime_id);
-            }} >
-						<ImageBackground style={styles.imgs} source={{ uri: item.item.img_url }}>
-							<Text style={styles.title}>{item.item.name}</Text>
-						</ImageBackground>
-					</TouchableOpacity>
+						<TouchableOpacity style={styles.animeBoxS} onPress={() => {
+							setAnimeModalVisible(true);
+							setAnimeModalImg(item.item.img_url);
+							setAnimeModalTitle(item.item.name);
+							setAnimeModalId(item.item.anime_id);
+						}} >
+							<ImageBackground style={styles.imgs} source={{ uri: item.item.img_url }}>
+								<Text style={styles.title}>{item.item.name}</Text>
+							</ImageBackground>
+						</TouchableOpacity>
 					)
 				}}
 				keyExtractor={item => item.hash.toString()}
-        />
-      </View>
-    </View>
-  );
+				/>
+			</View>
+		</View>
+	);
 }
 
 export default SearchScreen;

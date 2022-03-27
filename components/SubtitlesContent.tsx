@@ -1,13 +1,14 @@
-import { FlatList, ImageBackground, StyleSheet, TouchableOpacity, Modal, Pressable, Image, BackHandler, } from 'react-native';
-import { useState } from 'react';
+import { FlatList, ImageBackground, StyleSheet, TouchableOpacity, Modal, Pressable, Image, BackHandler, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { WebView } from 'react-native-webview';
 import { Text, View } from './Themed';
 import { GetAnime, GetPopularSub } from '../gogoanime';
-import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, NavigationContainer } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Navigation from '../navigation/index';
 
-export default class PopularAnimes extends React.Component {
+/*export default class PopularAnimes extends React.Component {
   constructor(props: any[]) {
     super(props);
     this.state = {
@@ -69,7 +70,6 @@ export default class PopularAnimes extends React.Component {
   }
 
   ViewModal() {
-
     const [viewModalVisible, showViewModal] = useState(true)
     const onBackPress = () => {
       if (viewModalVisible) {
@@ -100,31 +100,31 @@ export default class PopularAnimes extends React.Component {
             <Image style={styles.modalImg} source={{ uri: this.state.AnimeModalImg }} />   
             <Text style={{ fontWeight: 'bold', fontSize: 32 }}>{this.state.AnimeModalTitle}</Text>
             <Text>{this.state.AnimeModalId}</Text>
-          <FlatList
-            data={this.state.AnimeModalData}
-            keyExtractor={item => item.id.toString()}
-            scrollEnabled={true}
-            contentContainerStyle={{ flexDirection: 'column' }}
-            numColumns={4}
-            renderItem={item => {
-              return (
-                <TouchableOpacity style={
-                  {
-                    borderRadius: 20,
-                    width: 64,
-                    height: 32,
-                    margin: 4,
-                    backgroundColor: '#333',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  onPress={() => { this.setState({ViewModalVisible: true}) }}
-                >
-                  <Text style={{color:'white'}}> { item.item.id } </Text>
-                </TouchableOpacity>
-              )
-            }}
-          />
+            <FlatList
+              data={this.state.AnimeModalData}
+              keyExtractor={item => item.id.toString()}
+              scrollEnabled={true}
+              contentContainerStyle={{ flexDirection: 'column' }}
+              numColumns={4}
+              renderItem={item => {
+                return (
+                  <TouchableOpacity style={
+                    {
+                      borderRadius: 20,
+                      width: 64,
+                      height: 32,
+                      margin: 4,
+                      backgroundColor: '#333',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onPress={() => { this.setState({ViewModalVisible: true}) }}
+                  >
+                    <Text style={{color:'white'}}> { item.item.id } </Text>
+                  </TouchableOpacity>
+                )
+              }}
+            />
           </View>
           <Pressable
             style={{ height: 32, width: 32, position: 'absolute', top: 4, left: 4 }}
@@ -176,11 +176,185 @@ export default class PopularAnimes extends React.Component {
       </>
     )
   }
+}*/
+
+const PopularAnime = () => {
+
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [error, setError] = useState(null);
+
+  const [isInfoVisible, setIsInfoVisible] = useState(false)
+  const [isInfoLoading, setIsInfoLoading] = useState(false)
+  const [infoTitle, setInfoTitle] = useState('')
+  const [infoData, setInfoData] = useState([])
+  const [infoId, setInfoId] = useState('')
+  const [infoImg, setInfoImg] = useState('')
+  const [infoDesc, setInfoDesc] = useState('')
+
+  const [isViewerVisible, setIsViewerVisible] = useState(false)
+  const [viewerLink, setViewerLink] = useState('')
+
+
+  useEffect(() => {
+    fetchPopular()
+  }, [])
+
+  const fetchPopular = () => {
+    setIsLoading(true)
+    setData([]);
+    setPage(1);
+    GetPopularSub(1)
+      .then(resJson => {
+        setData(resJson);
+        setIsLoading(false);
+      }).catch(err => {
+        setIsLoading(false)
+        setError(err);
+      });
+  }
+
+  const addPage = () => {
+    GetPopularSub(page + 1)
+      .then(resJson => {
+        setData(data.concat(resJson))
+        setPage(page + 1)
+      }).catch(e => console.log(e))
+  }
+
+  const handleEnd = () => {
+    addPage()
+  }
+
+  function fetchAnime() {
+    console.log("Fetching anime ...")
+    GetAnime(infoId)
+      .then(resJson => {
+        setInfoDesc(resJson['about']);
+        setInfoData(resJson['episodes']);
+        setIsInfoLoading(false)
+        setIsInfoVisible(true)
+    })
+  }
+
+  const ViewModal = () => {
+    return (
+      <Modal
+        visible={isViewerVisible}
+        onRequestClose={() => setIsViewerVisible(false)}
+        animationType='fade'
+        presentationStyle='fullScreen'
+      >
+        
+      </Modal>
+    )
+  }
+  
+
+  const InfoModal = () => {
+
+    /*if (isInfoLoading) {
+      fetchAnime()
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color="#5500dc" />
+        </View>
+      )
+    }*/
+    
+    return (
+      <Modal
+        visible={isInfoVisible}
+        onRequestClose={() => {
+          setIsInfoVisible(false)
+          setInfoData([])
+          setInfoDesc('')
+        }}
+        animationType='fade'
+      >
+        <View style={styles.infoModal}> 
+          <View style={{ flex: 1, flexDirection: 'column', justifyContent:'flex-start', alignItems:'center', margin: 4, borderRadius: 20, backgroundColor: '#111' }}>
+            <Image style={styles.modalImg} source={{ uri: infoImg }} />   
+            <Text style={{ fontWeight: 'bold', fontSize: 32 }}>{infoTitle}</Text>
+            <Text>{infoId}</Text>
+            <Text style={{padding: 6, backgroundColor: '#222', margin: 4, borderRadius: 10}}>{ infoDesc }</Text>
+            <FlatList
+              data={infoData}
+              keyExtractor={(item, index) => index.toString()}
+              scrollEnabled={true}
+              contentContainerStyle={{ flexDirection: 'column' }}
+              renderItem={item => {
+                return (
+                  <TouchableOpacity style={
+                    {
+                      borderRadius: 20,
+                      width: 256,
+                      height: 32,
+                      margin: 4,
+                      backgroundColor: '#333',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onPress={() => { setIsViewerVisible(true) }}
+                  >
+                    <Text style={{color:'white'}}> Episode { item.item.id } </Text>
+                  </TouchableOpacity>
+                )
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#5500dc" />
+      </View>
+    )
+  }
+  
+  return (
+    <View>
+      <InfoModal />
+      <ViewModal />
+      <FlatList
+        data={data}
+        scrollEnabled={true}
+        numColumns={2}
+        contentContainerStyle={{ flexDirection: 'column' }}
+        renderItem={item => {
+          return (
+            <TouchableOpacity style={styles.animeBoxS}
+              onPress={() => {
+                setInfoId(item.item.anime_id)
+                setInfoImg(item.item.img_url)
+                setInfoTitle(item.item.name)
+                fetchAnime()
+              }}>
+              <ImageBackground style={styles.imgs} source={{ uri: item.item.img_url }}>
+                <Text style={styles.title}>{item.item.name}</Text>
+              </ImageBackground>
+            </TouchableOpacity>
+          )
+        }}
+        keyExtractor={(item, index) => index.toString()}
+        onRefresh={fetchPopular}
+        refreshing={isLoading}
+        onEndReached={handleEnd}
+        onEndReachedThreshold={0.1}
+        />
+    </View>
+  )
 }
 
+export default PopularAnime;
+
 const styles = StyleSheet.create({
-  AnimeModal: {
-    height: '100%',
+  infoModal: {
     flex: 1,
     justifyContent: 'center',
     padding: 16,
@@ -200,6 +374,7 @@ const styles = StyleSheet.create({
   animeBoxS: {
     borderRadius: 10,
     backgroundColor: '#252525',
+    borderColor: '#888',
     padding: 6,
     margin: 6,
     height: 240,
@@ -219,7 +394,9 @@ const styles = StyleSheet.create({
     height: '50%',
     width: '75%',
     resizeMode: 'contain',
-    margin: 4
+    margin: 4,
+    overflow: 'hidden',
+    borderRadius: 5
   },
 });
 

@@ -13,7 +13,7 @@ import {
 import { Search } from "../gogoanime";
 
 
-export default class SearchAnimes extends React.Component {
+/*export default class SearchAnimes extends React.Component {
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -33,7 +33,7 @@ export default class SearchAnimes extends React.Component {
 				<Modal style={styles.AnimeModal} animationType='slide' visible={this.state.AnimeModalVisible}>
 					<ImageBackground style={{height: '100%'}} source={{ uri: this.state.AnimeModalImg }}>
 						<Pressable onPress={() => { this.setState({ AnimeModalVisible: !this.state.AnimeModalVisible }) }}>
-						<Ionicons name='arrow-back' size={32} />
+							<Ionicons name='arrow-back' size={32} />
 						</Pressable>
 					</ImageBackground>
 				</Modal>
@@ -56,7 +56,7 @@ export default class SearchAnimes extends React.Component {
 			</>
 		)
 	}
-}
+}*/
 
 const styles = StyleSheet.create({
 	AnimeModal: {
