@@ -32,9 +32,11 @@ const SearchScreen = () => {
 				scrollEnabled={true}
 				numColumns={2}
 				contentContainerStyle={{ flexDirection: 'column' }}
-				renderItem={(item): any => {
+				renderItem={(item: any) => {
 					return (
-						<TouchableOpacity style={styles.animeBoxS} onPress={() => {
+						<TouchableOpacity
+							style={styles.animeBoxS}
+							onPress={() => {
 							setAnimeModalVisible(true);
 							setAnimeModalImg(item.item.img_url);
 							setAnimeModalTitle(item.item.name);
@@ -46,7 +48,7 @@ const SearchScreen = () => {
 						</TouchableOpacity>
 					)
 				}}
-				keyExtractor={item => item.hash.toString()}
+				keyExtractor={ (item, index) => index.toString() }
 				/>
 			</View>
 		</View>

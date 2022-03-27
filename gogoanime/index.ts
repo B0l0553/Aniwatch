@@ -22,17 +22,17 @@ async function GetPopularDub(page: number) {
 
 async function Search(query: string) {
   var res = await axios.get(`${api}/search/${query}`, config)
-  return await res.data;
+  return await res.data
 }
 
 async function GetAnime(_anime_name: string) {
   var res = await axios.get(`${api}/getanime/${_anime_name}`, config)
-  return await res.data;
+  return await res.data
 }
 
-async function WatchAnime(episode_id: number) {
-  var res = await axios.get(`${api}/getEpisode/${episode_id}`)
-  return await res.data;
+async function WatchAnime(episode_id: string) {
+  var res = await axios.get(`${api}/getEpisode/${episode_id}`, config)
+  return await res.data
 }
 
 export {
